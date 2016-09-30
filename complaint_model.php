@@ -121,7 +121,38 @@ class Complaint_model extends CI_Model
 	}
 	public function get_sap_projects()
 	{
-			$dbres = $this->db->query("SELECT * FROM business_data where `Sales Person` = '".$this->session->userdata('userid')."' AND status='0'");
+		$this->db->query("SET SQL_BIG_SELECTS=1");
+			$dbres = $this->db->query("
+								SELECT 
+								business_data.*, 
+								COALESCE(tbl_cities.city_name) AS city_name,
+								COALESCE(tbl_clients.client_name) AS client_name,
+								COALESCE(tbl_area.area) AS area,
+								COALESCE(user.first_name) AS first_name,
+								COALESCE(s1.date) AS strategy_date,
+								COALESCE(s1.target_date) AS target_date,
+								COALESCE(s1.strategy) AS strategy,
+								COALESCE(s1.tactics) AS tactics,
+								COALESCE(s1.investment) AS investment,
+								COALESCE(s1.sales_per_month) AS sales_per_month,
+								MAX(tbl_dvr.date) AS dvr_date,
+								COUNT(tbl_dvr.date) AS total_visits,
+								COALESCE(tbl_business_types.businesstype_name) AS businesstype_name 
+								
+								FROM business_data 
+								
+								LEFT JOIN tbl_cities ON business_data.City = tbl_cities.pk_city_id 
+								LEFT JOIN tbl_area ON business_data.Area = tbl_area.pk_area_id 
+								LEFT JOIN tbl_clients ON business_data.Customer = tbl_clients.pk_client_id 
+								LEFT JOIN user ON business_data.`Sales Person` = user.id 
+								LEFT JOIN tbl_business_types ON business_data.`Business Project`  = tbl_business_types.pk_businesstype_id
+								LEFT JOIN tbl_dvr ON business_data.pk_businessproject_id = tbl_dvr.fk_business_id
+								LEFT JOIN (SELECT * from tbl_project_strategy WHERE strategy_status = 1) s1 ON business_data.pk_businessproject_id = s1.fk_project_id
+								LEFT JOIN (SELECT * from tbl_project_strategy WHERE strategy_status = 1) s2 ON business_data.pk_businessproject_id = s2.fk_project_id AND s1.pk_project_strategy_id < s2.pk_project_strategy_id
+			
+			WHERE `Sales Person` = '".$this->session->userdata('userid')."' AND business_data.status='0' AND s2.pk_project_strategy_id IS NULL 
+			GROUP BY pk_businessproject_id
+			");
             $dbresResult=$dbres->result_array();
             return $dbresResult;
 	}
