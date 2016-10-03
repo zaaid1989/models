@@ -85,7 +85,16 @@ class Profile_model extends CI_Model
     }
 	public function get_all_employee_model()
     {
-           $dbres = $this->db->query("SELECT * FROM user   where delete_status = '0'  ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+           $dbres = $this->db->query("SELECT user.*,
+		   COALESCE(tbl_offices.office_name) AS office_name,
+		   COALESCE(tbl_cities.city_name) AS city_name,
+		   COALESCE(GROUP_CONCAT(tbl_products.product_name SEPARATOR ', ')) AS training_equipment
+		   FROM user   
+		   LEFT JOIN tbl_offices ON user.fk_office_id = tbl_offices.pk_office_id
+		   LEFT JOIN tbl_cities ON user.fk_city_id = tbl_cities.pk_city_id
+		   LEFT JOIN tbl_trainings ON fk_engineer_id = user.id
+		   LEFT JOIN tbl_products ON tbl_trainings.fk_brand_id = tbl_products.pk_product_id
+		   WHERE user.delete_status = '0' GROUP BY user.id ORDER BY  `fk_office_id` ,  `userrole` ASC ");
             $dbresResult=$dbres->result_array();
             return $dbresResult;
     }

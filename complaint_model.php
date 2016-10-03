@@ -192,19 +192,63 @@ class Complaint_model extends CI_Model
 	}
 	public function get_update_business_project_model($business_project_id)
 	{
-			$dbres = $this->db->query("SELECT * FROM business_data where pk_businessproject_id = '".$business_project_id."'");
+			 //$this->db->query("SELECT * FROM business_data where pk_businessproject_id = '".$business_project_id."'");
+			$dbres =	$this->db->query("
+								SELECT 
+								business_data.*, 
+								COALESCE(tbl_cities.city_name) AS city_name,
+								COALESCE(tbl_clients.client_name) AS client_name,
+								COALESCE(tbl_area.area) AS area,
+								COALESCE(user.first_name) AS first_name,
+								COALESCE(tbl_offices.office_name) AS office_name,
+								MAX(tbl_dvr.date) AS dvr_date,
+								COUNT(tbl_dvr.date) AS total_visits,
+								COALESCE(tbl_business_types.businesstype_name) AS businesstype_name 
+								
+								FROM business_data 
+								
+								LEFT JOIN tbl_offices ON business_data.Territory = tbl_offices.pk_office_id
+								LEFT JOIN tbl_cities ON business_data.City = tbl_cities.pk_city_id 
+								LEFT JOIN tbl_area ON business_data.Area = tbl_area.pk_area_id 
+								LEFT JOIN tbl_clients ON business_data.Customer = tbl_clients.pk_client_id 
+								LEFT JOIN user ON business_data.`Sales Person` = user.id 
+								LEFT JOIN tbl_business_types ON business_data.`Business Project`  = tbl_business_types.pk_businesstype_id
+								LEFT JOIN tbl_dvr ON business_data.pk_businessproject_id = tbl_dvr.fk_business_id
+								
+			
+								WHERE `pk_businessproject_id` = '".$business_project_id."'  
+								");
             $dbresResult=$dbres->result_array();
             return $dbresResult;
 	}
 	public function get_update_vs_project($vs_id)
 	{
-			$dbres = $this->db->query("SELECT * FROM tbl_vs where pk_vs_id = '".$vs_id."'");
+			$dbres = $this->db->query("
+			SELECT tbl_vs.*,user.fk_office_id AS user_office, user.userrole,tbl_offices.pk_office_id, tbl_offices.office_name,tbl_cities.pk_city_id,
+			tbl_offices.client_option,tbl_cities.city_name, tbl_business_types.businesstype_name, business_data.`Project Description`
+							
+			FROM tbl_vs 
+			LEFT JOIN user ON tbl_vs.fk_engineer_id = user.id
+			LEFT JOIN tbl_offices ON tbl_vs.fk_customer_id = tbl_offices.client_option
+			LEFT JOIN tbl_cities ON tbl_vs.fk_city_id = tbl_cities.pk_city_id
+			LEFT JOIN business_data ON tbl_vs.fk_business_id = business_data.pk_businessproject_id
+			LEFT JOIN tbl_business_types ON business_data.`Business Project` = tbl_business_types.pk_businesstype_id
+			WHERE pk_vs_id = '".$vs_id."'");
             $dbresResult=$dbres->result_array();
             return $dbresResult;
 	}
 	public function get_update_dvr_project($dvr_id)
 	{
-			$dbres = $this->db->query("SELECT * FROM tbl_dvr where pk_dvr_id = '".$dvr_id."'");
+			$dbres = $this->db->query("
+			SELECT tbl_dvr.*,user.fk_office_id AS user_office, user.userrole,tbl_offices.pk_office_id, tbl_offices.office_name, tbl_offices.client_option, tbl_cities.pk_city_id, tbl_cities.city_name, tbl_business_types.businesstype_name, business_data.`Project Description`
+			
+			FROM tbl_dvr 
+			LEFT JOIN user ON tbl_dvr.fk_engineer_id = user.id
+			LEFT JOIN tbl_offices ON tbl_dvr.fk_customer_id = tbl_offices.client_option
+			LEFT JOIN tbl_cities ON tbl_dvr.fk_city_id = tbl_cities.pk_city_id
+			LEFT JOIN business_data ON tbl_dvr.fk_business_id = business_data.pk_businessproject_id
+			LEFT JOIN tbl_business_types ON business_data.`Business Project` = tbl_business_types.pk_businesstype_id
+			WHERE pk_dvr_id = '".$dvr_id."'");
             $dbresResult=$dbres->result_array();
             return $dbresResult;
 	}
