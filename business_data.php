@@ -72,7 +72,7 @@ thead select {
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="btn-group">
-                                    <a href="<?php echo base_url();?>complaint/add_business_project" id="sample_editable_1_new" class="btn green-meadow"> 
+                                    <a href="<?php echo base_url();?>sys/add_business_project" id="sample_editable_1_new" class="btn green-meadow"> 
                                     	 New Business Project
                                         <i class="fa fa-plus"></i> 
                                     </a>
@@ -333,24 +333,24 @@ thead select {
                                                   <td>
 												  <div class="btn-group-vertical btn-group-solid">
                                                   	<a class="btn btn-sm default green-meadow-stripe" 
-                                                    href="<?php echo base_url();?>complaint/update_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>">
+                                                    href="<?php echo base_url();?>sys/update_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>">
                                                     	Update <i class="fa fa-edit"></i>
                                                     </a>
 													<a class="btn btn-sm default purple-stripe" 
-                                                    href="<?php echo base_url();?>complaint/add_strategy/<?php echo $my_business_data["pk_businessproject_id"];?>">
+                                                    href="<?php echo base_url();?>sys/add_strategy/<?php echo $my_business_data["pk_businessproject_id"];?>">
                                                       	Strategy &nbsp;<i class="fa fa-eye"></i>
                                                     </a>
 													<a class="btn btn-sm default blue-stripe" 
-                                                    href="<?php echo base_url();?>complaint/strategy_history/<?php echo $my_business_data["pk_businessproject_id"];?>">
+                                                    href="<?php echo base_url();?>sys/strategy_history/<?php echo $my_business_data["pk_businessproject_id"];?>">
                                                       	Strategy History &nbsp;<i class="fa fa-eye"></i>
                                                     </a>
 													<a class="btn btn-sm default blue-hoki-stripe" 
-                                                    href="<?php echo base_url();?>complaint/details_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>">
+                                                    href="<?php echo base_url();?>sys/details_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>">
                                                       	Details &nbsp;<i class="fa fa-eye"></i>
                                                       </a>
 													<!--  
                                                     <a class="btn btn-sm default red-thunderbird" onClick="return confirm('Are you sure you want to delete?')" 
-                                                      href="<?php echo base_url();?>complaint/delete_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>">
+                                                      href="<?php echo base_url();?>sys/delete_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>">
                                                       	Delete &nbsp;&nbsp;<i class="fa fa-trash-o"></i>
                                                       </a>
 													 --> 
@@ -372,7 +372,7 @@ thead select {
 								  </div>
 								  <div class="modal-body">
 								  <!-- Modal from Metronics -->
-								   <form action="<?php echo base_url();?>complaint/delete_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>" class="form-horizontal" method="post">
+								   <form action="<?php echo base_url();?>sys/delete_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>" class="form-horizontal" method="post">
 								   
                                     <div class="form-group row">
 									<label class="col-md-3 control-label">Result</label>
