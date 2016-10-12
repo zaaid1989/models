@@ -186,7 +186,9 @@ class Complaint_model extends CI_Model
 	
 	public function get_related_teritory($city_id)
 	{
-			$dbres = $this->db->query("SELECT * FROM tbl_cities where pk_city_id = '".$city_id."'");
+			$dbres = $this->db->query("SELECT tbl_cities.*, COALESCE(tbl_offices.office_name) AS office_name FROM tbl_cities 
+			LEFT JOIN tbl_offices ON tbl_cities.fk_office_id = tbl_offices.pk_office_id
+			where pk_city_id = '".$city_id."'");
             $dbresResult=$dbres->result_array();
             return $dbresResult;
 	}
