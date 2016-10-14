@@ -17,60 +17,7 @@ class Profile_model extends CI_Model
 		$this->db->where('id', $id);
 		$this->db->update('user', $data);
     }
-	public function change_date_to_mysql_style($un_proper_date) {
-		//echo $un_proper_date;exit;
-		$newdele=explode('-',$un_proper_date); 
-					if($newdele[1]=='Jan')
-						{
-							$month='01';
-						}
-					elseif($newdele[1]=='Feb')
-						{
-							$month='02';
-						}
-					elseif($newdele[1]=='Mar')
-						{
-							$month='03';
-						}
-					elseif($newdele[1]=='Apr')
-						{
-							$month='04';
-						}
-					elseif($newdele[1]=='May')
-						{
-							$month='05';
-						}
-					elseif($newdele[1]=='Jun')
-						{
-							$month='06';
-						}
-					elseif($newdele[1]=='Jul')
-						{
-							$month='07';
-						}
-					elseif($newdele[1]=='Aug')
-						{
-							$month='08';
-						}
-					elseif($newdele[1]=='Sep')
-						{
-							$month='09';
-						}
-					elseif($newdele[1]=='Oct')
-						{
-							$month='10';
-						}
-					elseif($newdele[1]=='Nov')
-						{
-							$month='11';
-						}
-					else
-						{
-							$month='12';
-						}
-					$proper_date=$newdele[2].'-'.$month.'-'.$newdele[0];
-					return $proper_date;
-	}
+	
 	public function view_user_model($id)
     {
 	    $dbres = $this->db->query("SELECT * FROM user where id='".$id."' ");
